@@ -9,7 +9,22 @@ from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
 @pytest.fixture(scope='class')
 def init_driver(request):
-    match  get_data("Browser").lower():
+    match get_driver("Driver").lower():
+        case 'web_driver':
+            print()
+        case 'android_driver':
+            print()
+        case 'rest_assured':
+            print()
+        case 'desktop':
+            print()
+        case 'electron':
+            print()
+        case _:
+            driver = None
+            print("Wrong input, unrecognized browser")
+
+    match get_browser("Browser").lower():
         case 'chrome':
             driver = webdriver.Chrome(ChromeDriverManager().install())
         case 'edge':
@@ -27,6 +42,31 @@ def init_driver(request):
     driver.quit()
 
 
-def get_data(node_name):
-    root = ET.parse('C:/Users/GIL/PycharmProjects/AutomationPythonHackathon/AaConfig_fileconfig.xml').getroot()
+def my_web_starter(self):
+    print()
+
+
+def my_appium_starter(self):
+    print()
+
+
+def my_api_starter(self):
+    print()
+
+
+def my_desktop_starter(self):
+    print()
+
+
+def my_electron_starter(self):
+    print()
+
+
+def get_browser(node_name):
+    root = ET.parse('C:/Users/GIL/PycharmProjects/AutomationPythonHackathon/AaConfig_file/config.xml').getroot()
+    return root.find(".//" + node_name).textdef
+
+
+def get_driver(node_name):
+    root = ET.parse('C:/Users/GIL/PycharmProjects/AutomationPythonHackathon/AaConfig_file/config.xml').getroot()
     return root.find(".//" + node_name).text
