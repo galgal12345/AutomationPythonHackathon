@@ -1,7 +1,15 @@
 from selenium.webdriver.chrome.webdriver import WebDriver
+from selenium.webdriver.common.by import By
 
 
 class SignUpPage:
+    locator_input_first_name = (By.ID, "firstName")
+    locator_input_last_name = (By.ID, "lastName")
+    locator_input_user_name = (By.ID, "username")
+    locator_input_password = (By.ID, "password")
+    locator_input_confirm_password = (By.ID, "confirmPassword")
+    locator_button_sign_up = (By.XPATH, "//span[text()='Sign Up']")
+
     def __init__(self, driver: WebDriver):
         self.driver = driver
 
