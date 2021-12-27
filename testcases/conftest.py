@@ -1,13 +1,22 @@
+"""
+conftest.py
+"""
+
 import pytest
+from _pytest.fixtures import FixtureRequest
 from selenium import webdriver
+from selenium.webdriver.chrome.webdriver import WebDriver
+from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
-
-from utils.common_ops import get_browser
+from utils.manage_pages import ManagePages
+from page_objects.web.login_page import LoginPage
+from utils.common_ops import get_data
 
 # WEB
-driver = None
+driver: WebDriver
+wait: WebDriverWait
 action = None
 
 # MOBILE
@@ -25,25 +34,37 @@ electron_app = "C:\\Automation\\Electrons\\Electron API Demos.exe"
 edriver = "C:\\electrondriver.exe"
 
 
+# PAGES
+# Web
+
+
 @pytest.fixture(scope='class')
-def my_web_starter(request):
-    if get_browser("Browser") == "chrome":
+def my_web_starter(request: FixtureRequest):
+    global driver, wait
+    if get_data("Browser") == "chrome":
         driver = webdriver.Chrome(ChromeDriverManager().install())
-    elif get_browser("Browser") == "edge":
+    elif get_data("Browser") == "edge":
         driver = webdriver.Edge(EdgeChromiumDriverManager().install())
-    elif get_browser("Browser") == "firefox":
+    elif get_data("Browser") == "firefox":
         driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
     else:
         driver = None
         print("Wrong input, unrecognized browser")
-
-    driver.get("https://www.google.com/")
     driver.maximize_window()
-    driver.implicitly_wait(1)
+    driver.implicitly_wait(5)
     globals()['driver'] = driver
-    request.cls.driver = driver
-    yield
-    driver.quit()
+    request.cls.driver = globals()['driver']
+    wait = WebDriverWait(driver, 10)
+    globals()['wait'] = wait
+    ManagePages.init_web_pages(driver)
+    yield driver
+    # driver.quit()
+
+
+@pytest.fixture(scope='function')
+def my_web_before_method(request: FixtureRequest):
+    global driver
+    driver.get("http://localhost:4000")
 
 
 @pytest.fixture(scope='class')

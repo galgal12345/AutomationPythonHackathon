@@ -1,5 +1,4 @@
 import pytest
-from utils.conftest import my_mobile_starter
 
 
 @pytest.mark.usefixtures("my_mobile_starter")
