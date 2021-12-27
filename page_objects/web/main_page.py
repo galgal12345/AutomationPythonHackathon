@@ -1,4 +1,5 @@
 from selenium.webdriver.chrome.webdriver import WebDriver
+from selenium.webdriver.common.by import By
 
 
 class MainPage:
@@ -22,3 +23,6 @@ class MainPage:
 
     def button_sign_up(self):
         return self.driver.find_element_by_xpath("//span[text()='Sign Up']")
+
+    def txt_get_started(self):
+        return By.XPATH, "//h2[text()='Get Started with Real World App']"

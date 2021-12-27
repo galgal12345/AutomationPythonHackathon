@@ -13,3 +13,7 @@ def set_text(locator: tuple, text):
     elem: WebElement = testcases.conftest.wait.until(ec.visibility_of_element_located(locator))
     elem.clear()
     elem.send_keys(text)
+
+
+def is_text_present(locator: tuple, text):
+    return testcases.conftest.wait.until(ec.text_to_be_present_in_element(locator, text))

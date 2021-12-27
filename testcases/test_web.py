@@ -21,11 +21,12 @@ class TestWeb:
         web_flows.login_flow(user_name, password)
         assert expected == web_flows.get_user_name_txt()
 
-    @pytest.mark.parametrize("first_name,last_name,user_name,password",
+    @pytest.mark.parametrize("first_name,last_name,user_name,password,expected",
                              read_test_data_from_csv(r'C:\Users\bizyb\PycharmProjects\project\DDTFiles\users.csv'))
-    def test_register(self, first_name, last_name, user_name, password):
+    def test_register(self, first_name, last_name, user_name, password, expected):
         web_flows.register_flow(first_name, last_name, user_name, password)
-
+        print(expected)
+        assert web_flows.is_text_present(expected) is True
         # e = driver.find_element_by_xpath("//a[@href='/signup']")
         # e.click()
         # e.click()
