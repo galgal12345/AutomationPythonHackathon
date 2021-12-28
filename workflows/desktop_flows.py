@@ -1,7 +1,9 @@
+import allure
 from extensions import desktop_action
 from utils.managers.manage_pages import ManagePages
 
-def test_01_addition():
+@allure.step("Desktop calculator addition ")
+def addition():
     desktop_action.click(ManagePages.cl.get_clear())
     desktop_action.click(ManagePages.cl.get_tow())
     desktop_action.click(ManagePages.cl.get_multi())

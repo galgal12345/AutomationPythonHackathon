@@ -2,4 +2,8 @@
 <Environment>
 	<Browser>chrome</Browser>
 	<Driver>webdriver</Driver>
+
+	<apiUrl>http://localhost:3000/posts</apiUrl>
+	<id_post>101</id_post>
+	<payload >{"userId": 11, "id": "101", "title": "test", "body": "123"}</payload >
 </Environment>

@@ -6,8 +6,8 @@ from utils.common_ops import get_data
 
 url = get_data("apiUrl")
 id = get_data("id_post")
-payload = {"userId": 11, "id": "101", "title": "test", "body": "123"}
-
+#payload = {"userId": 11, "id": "101", "title": "test", "body": "123"}
+payload =get_data("payload ")
 class Test_Api_Server:
 
     @allure.title("testing API -GET")
