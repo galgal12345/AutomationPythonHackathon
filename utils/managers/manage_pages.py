@@ -1,5 +1,10 @@
-from page_objects.desktop.calculator_page import Calculator_Page
-from  page_objects.electron.apidemos_page import Apidemos_Page
+# from page_objects.desktop.calculator_page import Calculator_Page
+# from  page_objects.electron.apidemos_page import Apidemos_Page
+
+
+from AutomationPythonHackathon.page_objects.desktop.calculator_page import Calculator_Page
+from AutomationPythonHackathon.page_objects.electron.apidemos_page import Apidemos_Page
+
 
 class ManagePages:
     cl: Calculator_Page

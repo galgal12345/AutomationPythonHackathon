@@ -17,7 +17,7 @@ dc = {}
 testName = 'Untitled'
 
 # API
-url = 'https://api.chucknorris.io/jokes/'
+url = 'http://localhost:3000'
 header = {'Content-type': 'application/json'}
 
 # ELECTRON
