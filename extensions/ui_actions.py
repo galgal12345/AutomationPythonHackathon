@@ -17,3 +17,11 @@ def set_text(locator: tuple, text):
 
 def is_text_present(locator: tuple, text):
     return testcases.conftest.wait.until(ec.text_to_be_present_in_element(locator, text))
+
+
+def get_element_text(locator: tuple):
+    return testcases.conftest.wait.until(ec.visibility_of_element_located(locator)).text
+
+
+def get_element_list(locator: tuple):
+    return testcases.conftest.wait.until(ec.visibility_of_all_elements_located(locator))

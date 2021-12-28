@@ -6,19 +6,23 @@ import pytest
 from _pytest.fixtures import FixtureRequest
 from selenium import webdriver
 from selenium.webdriver.chrome.webdriver import WebDriver
+from selenium.webdriver.support.event_firing_webdriver import EventFiringWebDriver
 from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
+
+from utils.listener import MyListener
 from utils.manage_pages import ManagePages
 from page_objects.web.login_page import LoginPage
 from utils.common_ops import get_data
+from applitools.selenium import Eyes, Target, BatchInfo, ClassicRunner
 
 # WEB
-driver: WebDriver
+driver: EventFiringWebDriver
 wait: WebDriverWait
 action = None
-
+e_driver: WebDriver
 # MOBILE
 reportDirectory = 'reports'
 reportFormat = 'xml'
@@ -40,16 +44,17 @@ edriver = "C:\\electrondriver.exe"
 
 @pytest.fixture(scope='class')
 def my_web_starter(request: FixtureRequest):
-    global driver, wait
+    global driver, wait, e_driver
     if get_data("Browser") == "chrome":
-        driver = webdriver.Chrome(ChromeDriverManager().install())
+        e_driver = webdriver.Chrome(ChromeDriverManager().install())
     elif get_data("Browser") == "edge":
-        driver = webdriver.Edge(EdgeChromiumDriverManager().install())
+        e_driver = webdriver.Edge(EdgeChromiumDriverManager().install())
     elif get_data("Browser") == "firefox":
-        driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
+        e_driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
     else:
-        driver = None
+        e_driver = None
         print("Wrong input, unrecognized browser")
+    driver = EventFiringWebDriver(e_driver, MyListener())
     driver.maximize_window()
     driver.implicitly_wait(5)
     globals()['driver'] = driver
@@ -112,3 +117,21 @@ def my_electron_starter(request):
     request.cls.driver = driver
     yield
     driver.quit()
+
+
+@pytest.fixture(name="runner", scope="session")
+def runner_setup():
+    """
+    One test runner for all tests. Print test results in the end of execution.
+    """
+    runner = ClassicRunner()
+    yield runner
+
+
+@pytest.fixture(name="eyes")
+def applitools_set_up(runner):
+    global driver, e_driver
+    eyes = Eyes(runner)
+    eyes.api_key = "Y7YclUHy7uKAB110GYMAC9bTPBHimPnc3wUQ4UyPgBtRs110"
+    eyes.open(e_driver, "Hack", "Dismiss test")
+    yield eyes
